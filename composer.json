@@ -1,0 +1,16 @@
+{
+    "name": "amir/web_framework",
+    "autoload": {
+        "psr-4": {
+            "Amir\\WebFramework\\": "src/",
+            "Controllers\\": "Controllers/"
+        }
+    },
+    "authors": [
+        {
+            "name": "amir",
+            "email": "amirpourastarabadi@gmail.com"
+        }
+    ],
+    "require": {}
+}
