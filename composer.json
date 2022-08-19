@@ -3,7 +3,8 @@
     "autoload": {
         "psr-4": {
             "Amir\\WebFramework\\": "src/",
-            "Controllers\\": "Controllers/"
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/"
         }
     },
     "authors": [
