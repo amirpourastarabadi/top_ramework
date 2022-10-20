@@ -17,17 +17,40 @@ class Router
 
     public function get(string $url, $callback)
     {
-        $this->routes[$this->request->getMethod()][$url] = $callback;  
+        $this->routes[$this->request->getMethod()][$url] = $callback;
     }
 
     public function resolve()
     {
         $callback = $this->routes[$this->request->getMethod()][$this->request->getUrl()];
-        
-        if(is_null($callback)){
-            echo "Not Found";
+
+        if (is_null($callback)) {
+            return  "Not Found";
         }
 
-        call_user_func($callback);
+        if (is_string($callback)) {
+            return $this->renderView($callback);
+        }
+
+        return call_user_func($callback);
+    }
+
+
+    private function renderView(string $view)
+    {
+        $viewContent = $this->getView($view);
+        
+        $layoutContent = $this->getView('layouts.main');
+       
+        return str_replace('{{content}}', $viewContent, $layoutContent);
+    }
+
+    private function getView(string $view)
+    {
+        $view = str_replace('.', '/', $view);
+
+        ob_start();
+        include_once  __DIR__ . "/../../views/$view.html";
+        return ob_get_clean();
     }
 }
