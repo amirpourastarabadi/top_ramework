@@ -1,0 +1,15 @@
+{
+    "name": "amir/top-framework",
+    "autoload": {
+        "psr-4": {
+            "Top\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "amir",
+            "email": "amirpourastarabadi@gmail.com"
+        }
+    ],
+    "require": {}
+}
