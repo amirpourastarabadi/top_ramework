@@ -27,7 +27,7 @@ class Router
 
         if (is_null($callback)) {
             Response::withStatusCode(Response::HTTP_NOT_FOUND);
-            return  "Not Found";
+            return  $this->renderView('errors.not_found');
         }
 
         if (is_string($callback)) {
@@ -43,6 +43,8 @@ class Router
         $viewContent = $this->getView($view);
 
         $layoutContent = $this->getView('layouts.main');
+
+        $layoutContent = str_replace('TOP Framework', explode('.', $view)[0], $layoutContent);
 
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
