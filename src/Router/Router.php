@@ -3,6 +3,7 @@
 namespace Top\Router;
 
 use Top\Request\Request;
+use Top\Response\Response;
 
 class Router
 {
@@ -25,6 +26,7 @@ class Router
         $callback = $this->routes[$this->request->getMethod()][$this->request->getUrl()];
 
         if (is_null($callback)) {
+            Response::withStatusCode(Response::HTTP_NOT_FOUND);
             return  "Not Found";
         }
 
@@ -39,9 +41,9 @@ class Router
     private function renderView(string $view)
     {
         $viewContent = $this->getView($view);
-        
+
         $layoutContent = $this->getView('layouts.main');
-       
+
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
 
