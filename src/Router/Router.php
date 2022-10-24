@@ -4,16 +4,19 @@ namespace Top\Router;
 
 use Top\Request\Request;
 use Top\Response\Response;
+use Top\View\View;
 
 class Router
 {
     private array $routes = [];
 
     private Request $request;
+    private View $view;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->view = new View();
     }
 
     public function get(string $url, $callback)
@@ -27,34 +30,13 @@ class Router
 
         if (is_null($callback)) {
             Response::withStatusCode(Response::HTTP_NOT_FOUND);
-            return  $this->renderView('errors.not_found');
+            return  $this->view->render('errors.not_found');
         }
 
         if (is_string($callback)) {
-            return $this->renderView($callback);
+            return $this->view->render($callback);
         }
 
         return call_user_func($callback);
-    }
-
-
-    private function renderView(string $view)
-    {
-        $viewContent = $this->getView($view);
-
-        $layoutContent = $this->getView('layouts.main');
-
-        $layoutContent = str_replace('TOP Framework', explode('.', $view)[0], $layoutContent);
-
-        return str_replace('{{content}}', $viewContent, $layoutContent);
-    }
-
-    private function getView(string $view)
-    {
-        $view = str_replace('.', '/', $view);
-
-        ob_start();
-        include_once  __DIR__ . "/../../views/$view.html";
-        return ob_get_clean();
     }
 }
