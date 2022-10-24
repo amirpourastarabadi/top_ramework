@@ -2,7 +2,8 @@
     "name": "amir/top-framework",
     "autoload": {
         "psr-4": {
-            "Top\\": "src/"
+            "Top\\": "src/",
+            "App\\": "app/"
         }
     },
     "authors": [
