@@ -1,6 +1,9 @@
 {
     "name": "amir/top-framework",
     "autoload": {
+        "files": [
+            "helpers.php"
+        ],
         "psr-4": {
             "Top\\": "src/",
             "App\\": "app/"
