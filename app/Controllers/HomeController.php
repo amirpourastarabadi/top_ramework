@@ -8,6 +8,6 @@ class HomeController
 {
     public function welcome()
     {
-        return render('home.welcome');
+        return render('home.welcome', ['name' => 'amir']);
     }
 }
