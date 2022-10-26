@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use Top\View\View;
-
 class ContactController
 {
     public function show()

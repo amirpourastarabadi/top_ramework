@@ -22,6 +22,11 @@ class Router
     public function get(string $url, $callback)
     {
         $this->routes[$this->request->getMethod()][$url] = $callback;
+    }    
+    
+    public function post(string $url, $callback)
+    {
+        $this->routes[$this->request->getMethod()][$url] = $callback;
     }
 
     public function resolve()

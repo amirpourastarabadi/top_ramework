@@ -24,7 +24,7 @@ class View
             $$key = $value;
         }
 
-        include  __DIR__ . "/../../views/$view.php";
+        include_once  __DIR__ . "/../../views/$view.php";
         return ob_get_clean();
     }
 }
