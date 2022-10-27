@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Top\Request\Request;
+
 class CommentController
 {
     public function create()
@@ -9,7 +11,7 @@ class CommentController
         return render('comments.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
         return "Store Comment in a file for now";
     }
