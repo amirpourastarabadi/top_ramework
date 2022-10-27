@@ -8,9 +8,18 @@ class View
     {
         $viewContent = $this->getView($view, $data);
 
-        $layoutContent = $this->getView('layouts.main', $data);
+        $layout = $this->getLayoutOfView($viewContent);
 
+        if(count($layout) === 0){
+            return $viewContent;
+        }
+
+        $layoutContent = $this->getView($layout[1], $data);
+        
         $layoutContent = str_replace('TOP Framework', explode('.', $view)[0], $layoutContent);
+        
+        $viewContent = str_replace($layout[0], '', $viewContent);
+
 
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
@@ -23,8 +32,14 @@ class View
         foreach ($data as $key => $value) {
             $$key = $value;
         }
-
-        include_once  __DIR__ . "/../../views/$view.php";
+        include_once  __DIR__ . "/../../views/" . $view . ".php";
         return ob_get_clean();
+    }
+
+    private function getLayoutOfView(string $viewContent)
+    {
+        preg_match('/.*\@extends\([\'|"](.*)[\'|"]\).*/', $viewContent, $matches);
+        
+        return count($matches) ?  $matches : [];
     }
 }
