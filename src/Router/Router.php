@@ -21,12 +21,12 @@ class Router
 
     public function get(string $url, $callback)
     {
-        $this->routes[$this->request->getMethod()][$url] = $callback;
+        $this->routes['get'][$url] = $callback;
     }    
     
     public function post(string $url, $callback)
     {
-        $this->routes[$this->request->getMethod()][$url] = $callback;
+        $this->routes['post'][$url] = $callback;
     }
 
     public function resolve()
@@ -47,5 +47,10 @@ class Router
         }
 
         return call_user_func($callback, $this->request);
+    }
+
+    public function allRoutes()
+    {
+        return $this->routes;
     }
 }
