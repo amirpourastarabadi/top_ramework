@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Comment;
 use Top\Request\Request;
 
 class CommentController
@@ -13,6 +14,8 @@ class CommentController
 
     public function store(Request $request)
     {
+        $comment = Comment::create($request->all());
+        
         return "Store Comment in a file for now";
     }
 }
