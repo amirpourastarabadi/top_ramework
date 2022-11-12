@@ -4,22 +4,31 @@ namespace Top\Validation;
 
 class Validation
 {
-    private const RULES_NAMESPASE = "Top\\Validation\\Rules\\";
+    private const RULES_NAMESPACE = "Top\\Validation\\Rules\\";
 
     public static function isValid(string $rule, $value): bool
     {
-        $ruleClass = static::pareseRule($rule);
-        return (static::RULES_NAMESPASE . $ruleClass)::passed($value);
+        $ruleObject = static::parseRule($rule);
+        return $ruleObject->passed($value);
     }
 
-    protected static function pareseRule(string $rule): string
+    public static function getValidationError(string $rule, string $property)
+    {
+        $ruleObject = static::parseRule($rule);
+
+        return $ruleObject->getErrorMessage($property);
+    }
+
+    protected static function parseRule(string $rule)
     {
         $ruleParts = explode(':', $rule);
 
-        $rule = ucwords($ruleParts[0]);
+        $rule = static::RULES_NAMESPACE . ucwords($ruleParts[0]);
+
+        $rule = new $rule();
 
         if (count($ruleParts) > 1) {
-            ($rule::class)::setProperties($ruleParts[1]);
+            $rule->setProperties($ruleParts[1]);
         }
 
         return $rule;

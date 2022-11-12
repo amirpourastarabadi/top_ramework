@@ -4,16 +4,26 @@ namespace Top\Validation\Rules;
 
 class Required extends Rule
 {
-    static public function setProperties(string $properties): void
+
+    private const MESSAGE = '{attribute} is required.';
+
+    private const NEEDLE = '{attribute}';
+
+    public function setProperties(string $properties): void
     {
     }
 
-    static public function passed(mixed $value): bool
+    public function passed($value): bool
     {
-        if($value === '' || is_null($value)){
+        if ($value === '' || is_null($value)) {
             return false;
         }
 
-        return true ;
+        return true;
+    }
+
+    public function getErrorMessage(string $property): string
+    {
+        return str_replace(static::NEEDLE, $property, static::MESSAGE);
     }
 }

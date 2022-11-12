@@ -5,7 +5,9 @@ namespace Top\Validation\Rules;
 
 abstract class Rule
 {
-    abstract static public function setProperties(string $properties): void;
+    abstract public function setProperties(string $properties): void;
 
-    abstract static public function passed(mixed $value): bool;
+    abstract public function passed($value): bool;
+
+    abstract public function getErrorMessage(string $value): string;
 }

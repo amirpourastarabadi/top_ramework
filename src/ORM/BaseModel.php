@@ -8,6 +8,8 @@ use Top\Validation\Validation;
 abstract class BaseModel
 {
 
+    protected array $validationErrors = [];
+
     protected function create(array $data)
     {
         $this->fillModel($data)->validate()
@@ -45,12 +47,17 @@ abstract class BaseModel
         foreach ($this->rules() as $property => $rules) {
             foreach ($rules as $rule) {
                 if (! Validation::isValid($rule, $this->{$property})) {
-                    throw new Exception("$property with $rule did not passed!", 422); // to do fill error bag and return it to user
+                    $this->fillValidationErrors($rule, $property);
                 };
             }
         }
 
         return $this;
+    }
+
+    protected function fillValidationErrors(string $rule, string $property):void
+    {
+        $this->validationErrors[$property][] = Validation::getValidationError($rule, $property);
     }
 
     abstract protected function rules(): array;
