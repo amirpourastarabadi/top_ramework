@@ -15,6 +15,11 @@ class CommentController
     public function store(Request $request)
     {
         $comment = Comment::create($request->all());
+
+        if(!$comment->isSaved())
+        {
+            return render('comments.create', ['errors' => $comment->getValidationErrors()]);
+        }
         
         return "Store Comment in a file for now";
     }

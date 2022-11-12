@@ -10,17 +10,23 @@ abstract class BaseModel
 
     protected array $validationErrors = [];
 
+    protected bool $saved = false;
+
     protected function create(array $data)
     {
-        $this->fillModel($data)->validate()
-            /**->save() */
-        ;
-        $this->validate();
-        // $this->save();
+        $this->fillModel($data)->validate();
 
-
+        if (empty($this->validationErrors)) {
+            $this->save();
+        }
 
         return $this;
+    }
+
+    public function save()
+    {
+        $this->saved = true;
+        return $this; // todd: save model in database
     }
 
     public static function __callStatic($name, $arguments)
@@ -31,7 +37,7 @@ abstract class BaseModel
         }
     }
 
-    public function fillModel(array $data): static
+    public function fillModel(array $data)
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
@@ -41,12 +47,11 @@ abstract class BaseModel
         return $this;
     }
 
-    public function validate(): static
+    public function validate()
     {
-
         foreach ($this->rules() as $property => $rules) {
             foreach ($rules as $rule) {
-                if (! Validation::isValid($rule, $this->{$property})) {
+                if (!Validation::isValid($rule, $this->{$property})) {
                     $this->fillValidationErrors($rule, $property);
                 };
             }
@@ -55,10 +60,20 @@ abstract class BaseModel
         return $this;
     }
 
-    protected function fillValidationErrors(string $rule, string $property):void
+    protected function fillValidationErrors(string $rule, string $property): void
     {
         $this->validationErrors[$property][] = Validation::getValidationError($rule, $property);
     }
 
     abstract protected function rules(): array;
+
+    public function isSaved()
+    {
+        return $this->saved;
+    }
+
+    public function getValidationErrors()
+    {
+        return $this->validationErrors;
+    }
 }
