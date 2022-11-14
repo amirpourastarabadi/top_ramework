@@ -9,6 +9,7 @@ class Validation
     public static function isValid(string $rule, $value): bool
     {
         $ruleObject = static::parseRule($rule);
+        
         return $ruleObject->passed($value);
     }
 

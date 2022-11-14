@@ -11,7 +11,7 @@ class Comment extends BaseModel
     protected function rules(): array
     {
         return [
-            'body' => ['required']
+            'body' => ['min:3', 'required']
         ];
     }
 }
